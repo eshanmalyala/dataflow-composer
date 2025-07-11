@@ -7,3 +7,28 @@ steps:
       - |
         terraform -chdir=terraform init
         terraform -chdir=terraform apply -auto-approve
+        terraform output -raw dataflow_template_bucket > /workspace/BKT_NAME.txt
+# Step 5: Upload Composer DAG
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        BUCKET=$(cat /workspace/BKT_NAME.txt)
+        gsutil cp batch/*  gs://$$BUCKET_NAME/
+
+
+# Step 2: Build and deploy Dataflow Flex Template
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+     - -c
+     - |
+        BUCKET=$(cat /workspace/BKT_NAME.txt)
+        gcloud dataflow flex-template build gs://$$BUCKET_NAME/getting_started-py.json \
+         --image europe-west1-docker.pkg.dev/gcp-agent-garden/streaming-registry/dataflow-streaming-pii  \
+         --sdk-language "PYTHON" \
+         --flex-template-base-image "PYTHON3" \
+         --metadata-file "batch/jsonSchema.json" \
+         --py-path "." \
+         --env "FLEX_TEMPLATE_PYTHON_PY_FILE=getting_started.py" \
+         --env "FLEX_TEMPLATE_PYTHON_REQUIREMENTS_FILE=requirements.txt"
