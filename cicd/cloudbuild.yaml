@@ -1,0 +1,9 @@
+steps:
+  # Step 1: Deploy Terraform infrastructure
+  - name: 'hashicorp/terraform'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        terraform -chdir=terraform init
+        terraform -chdir=terraform apply -auto-approve
