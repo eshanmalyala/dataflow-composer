@@ -20,7 +20,7 @@ resource "google_bigquery_dataset" "dataset" {
         prevent_destroy = true
       }
 }
-resource "google_bigquery_table" "employee" {
+resource "google_bigquery_table" "average_weathe" {
   dataset_id = google_bigquery_dataset.dataset.dataset_id
   table_id   = var.table_name
   schema = jsonencode([
