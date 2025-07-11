@@ -1,22 +1,22 @@
 variable "project_id" {
-  default = "sharedproejcet-1"
+  default = "gcp-agent-garden"
 }
 
 variable "region" {
-  default = "EU"
+  default = "europe-west1"
 }
 
 variable "bucket_name" {
-  default = "getwellsoon-bucket-11"
+  default = "cgbucket"
 }
 
 variable "pubsub_topic" {
-  default = "getwellsoon-topic-11"
+  default = "cg-topic"
 }
 
 variable "bq_dataset" {
-  default = "getwellsoon_dataset_today"
+  default = "average_weather"
 }
 variable "table_name" {
-  default = "employe"
+  default = "average_weathe"
 }
